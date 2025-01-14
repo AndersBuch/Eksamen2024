@@ -23,7 +23,7 @@
           <span>User ID</span>
           <span>User Name</span>
           <span>Email</span>
-          <span>Actions</span>
+          <span>Admin?</span>
         </div>
         {{#each users}}
         <div class="row-container-users">
@@ -31,9 +31,11 @@
             <span>{{this.user_id}}</span>
             <span>{{this.user_name}}</span>
             <span>{{this.email}}</span>
-            <span class="actions-users">
-
-            </span>
+            {{#if this.admin}}
+            <span>yes</span>
+            {{else}}
+            <span>No</span>
+            {{/if}}
           </div>
         </div>
         {{/each}}

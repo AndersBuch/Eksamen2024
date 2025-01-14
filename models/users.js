@@ -7,6 +7,4 @@ module.exports = {
     return rows;
   },
 
-
-
 }
