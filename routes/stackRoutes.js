@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const stackController = require('../controllers/stackController');
 const groupController = require('../controllers/groupController');
+const usersController = require('../controllers/usersController');
 const isAdmin = require('../isAdmin');
 router.get('/stacks', stackController.getStacks);
 router.get('/groups', isAdmin, groupController.getAllGroups);
@@ -14,6 +15,7 @@ router.post('/stacks/stop', stackController.stopStack);
 router.post('/api/templates', stackController .addTemplate);
 router.post('/add-user', stackController.createUser);
 router.delete('/stacks/delete', isAdmin, stackController.deleteStack);
+router.get('/users', isAdmin, usersController.getAllUsersFromDatabase);
 
 
 module.exports = router;
