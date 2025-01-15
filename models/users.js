@@ -7,4 +7,8 @@ module.exports = {
     return rows;
   },
 
+  setAdminStatus: async (userId, isAdmin) => {
+    const [result] = await db.execute(`UPDATE users SET admin = ? WHERE user_id = ?`, [isAdmin ? 1 : 0, userId]);
+    return result.affectedRows > 0; // Return true if a row was updated
+  },
 }

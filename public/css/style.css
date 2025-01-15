@@ -2318,7 +2318,7 @@ input:checked + .slider:before {
 
   .table-header-users {
     display: grid;
-    grid-template-columns:  1fr 1.5fr 1.5fr 1.5fr;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr;
     padding: 15px 20px;
     align-items: center;
     justify-content: center;
@@ -2342,7 +2342,7 @@ input:checked + .slider:before {
   
   .table-row-users {
     display: grid;
-    grid-template-columns:  1fr 1.5fr 1.5fr 1.5fr;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr;
     padding: 15px 20px;
     align-items: center;
     background: transparent;
@@ -2360,10 +2360,25 @@ input:checked + .slider:before {
  
   
   .actions-users button {
-    color: var(--font-color);
-    font-size: 12px;
+    font-size: 16px;
+    font-weight: 600;
     transition: background-color 0.3s;
     z-index: 1;
+  }
+
+  .add-admin {
+    background-color: #00ff00;
+    color: #0E0E0E;
+    padding: 6px 12px;
+    border-radius: 10px;
+    
+  }
+  
+  .remove-admin {
+    background-color: #ff4d4d;
+    color: #f9f9f9;
+    padding: 6px 12px;
+    border-radius: 10px;
   }
 
 

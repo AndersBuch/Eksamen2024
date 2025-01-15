@@ -20,15 +20,14 @@
 
         <!-- Table Header (Make sure this stays) -->
         <div class="table-header-users">
-          <span>User ID</span>
           <span>User Name</span>
           <span>Email</span>
           <span>Admin?</span>
+          <span>Actions</span>
         </div>
         {{#each users}}
         <div class="row-container-users">
           <div class="table-row-users">
-            <span>{{this.user_id}}</span>
             <span>{{this.user_name}}</span>
             <span>{{this.email}}</span>
             {{#if this.admin}}
@@ -36,9 +35,46 @@
             {{else}}
             <span>No</span>
             {{/if}}
+            <span class="actions-users">
+              {{#if this.admin}}
+              <button class="remove-admin" data-user-id="{{this.user_id}}" data-is-admin="false">Remove admin</button>
+              {{else}}
+              <button class="add-admin" data-user-id="{{this.user_id}}" data-is-admin="true">Add admin</button>
+              {{/if}}
+            </span>
           </div>
         </div>
         {{/each}}
       </div>
     </main>
   </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.add-admin, .remove-admin').forEach(button => {
+      button.addEventListener('click', async () => {
+        const userId = button.getAttribute('data-user-id');
+        const isAdmin = button.getAttribute('data-is-admin') === 'true';
+
+        try {
+          const response = await fetch('/set-admin-status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, isAdmin }),
+          });
+
+          if (response.ok) {
+            alert('Admin status updated');
+            window.location.reload(); // Reload to reflect changes
+          } else {
+            const error = await response.json();
+            alert('Error: ' + error.message);
+          }
+        } catch (err) {
+          console.error('Request failed', err);
+          alert('Failed to update admin status');
+        }
+      });
+    });
+  });
+</script>
