@@ -12,3 +12,4 @@ module.exports = {
     return result.affectedRows > 0; // Return true if a row was updated
   },
 }
+

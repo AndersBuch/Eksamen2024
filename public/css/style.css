@@ -2393,3 +2393,15 @@ input:checked + .slider:before {
       font-size: 14px;
     }
   }
+
+  /* Manage Users Modal styles*/
+
+  .manage-users-model  {
+    background: #0E0E0E;
+    width: 600px;
+    padding: 20px;
+  }
+
+  .manage-users-model label {
+    font-weight: 600;
+  }
