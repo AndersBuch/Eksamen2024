@@ -18,5 +18,9 @@ router.delete('/stacks/delete', isAdmin, stackController.deleteStack);
 router.get('/users', isAdmin, usersController.getAllUsersFromDatabase);
 router.post('/set-admin-status', isAdmin, usersController.setAdminStatus);
 
+router.get('/get-user/:userId', usersController.getUserById);
+router.post('/update-user', usersController.updateUserDetails);
+router.post('/delete-user', usersController.deleteUserById);
+
 
 module.exports = router;

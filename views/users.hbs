@@ -27,7 +27,7 @@
         </div>
         {{#each users}}
         <div class="row-container-users">
-          <div class="table-row-users">
+          <div class="table-row-users" data-user-id="{{this.user_id}}">
             <span>{{this.user_name}}</span>
             <span>{{this.email}}</span>
             {{#if this.admin}}
@@ -36,7 +36,7 @@
             <span>No</span>
             {{/if}}
             <span class="actions-users">
-              <button data-open-manageuser class="manage-user-btn">Manage User</button>
+              <button data-open-manageuser type="button" class="manage-user-btn">Manage User</button>
             </span>
           </div>
         </div>
@@ -48,16 +48,97 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const openManageUsers = document.querySelectorAll("[data-open-manageuser]");
-  const closeManageUsers = document.querySelectorAll("[data-close-manageuser]");
-  const manageUsersModel = document.querySelector("[data-manage-user]");
+  const manageUsersModal = document.querySelector("[data-manage-user]");
+  const form = manageUsersModal.querySelector("form");
+
 
   openManageUsers.forEach(button => {
-    button.addEventListener("click", () => {
-      manageUsersModel.showModal();
+    button.addEventListener("click", async () => {
+      const userId = button.closest(".table-row-users").getAttribute("data-user-id");
+
+      try {
+        const response = await fetch(`/get-user/${userId}`);
+        if (!response.ok) throw new Error('Failed to fetch user data');
+        const user = await response.json();
+
+        // Populate modal fields
+        form.querySelector('input[name="changeName"]').value = user.user_name;
+        form.querySelector('input[name="changeEmail"]').value = user.email;
+        form.querySelector('input[name="changePassword"]').value = user.password;
+        form.querySelector('button[type="submit"]').setAttribute('data-user-id', userId);
+
+        manageUsersModal.showModal();
+      } catch (error) {
+        console.error(error);
+        alert('Failed to load user details');
+      }
     });
   });
-});
 
+  // Handle form submission
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const userId = event.target.querySelector('button[type="submit"]').getAttribute('data-user-id');
+    const userName = form.querySelector('input[name="changeName"]').value;
+    const email = form.querySelector('input[name="changeEmail"]').value;
+    const password = form.querySelector('input[name="changePassword"]').value;
+
+    try {
+      const response = await fetch('/update-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, userName, email, password }),
+      });
+
+      if (response.ok) {
+        alert('User details updated successfully');
+        window.location.reload();
+      } else {
+        const error = await response.json();
+        alert('Error: ' + error.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Failed to update user details');
+    }
+  });
+
+    const deleteUserButton = manageUsersModal.querySelector("[data-delete-user]");
+
+    // Handle delete user button inside the modal
+    deleteUserButton.addEventListener("click", async () => {
+    const userId = manageUsersModal.querySelector('button[type="submit"]').getAttribute('data-user-id');
+
+    if (!userId) {
+      console.error("User ID not found");
+      return alert("Failed to find user ID");
+    }
+
+    // Confirm deletion
+    const confirmDelete = confirm("Are you sure you want to delete this user?");
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch('/delete-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (response.ok) {
+        alert('User deleted successfully');
+        manageUsersModal.close(); // Close the modal
+        window.location.reload(); // Refresh the page to reflect changes
+      } else {
+        const error = await response.json();
+        alert('Error: ' + error.message);
+      }
+    } catch (error) {
+      console.error('Catch block error:', error); // Log any error caught
+      alert('Failed to delete user');
+    }
+  });
+});
 </script>
 
 <dialog data-manage-user class="manage-users-model">
@@ -85,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
     <div>
-      <button>Delete User</button>
+      <button data-delete-user class="delete-user-btn">Delete</button>
     </div>
 
     <button type="submit">Save</button>
