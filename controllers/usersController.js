@@ -61,14 +61,20 @@ exports.updateUserDetails = async (req, res) => {
 exports.deleteUserById = async (req, res) => {
   const { userId } = req.body; // Expect the userId in the request body
   try {
+    console.log(`Delete request received for userId: ${userId}`); // Log the userId
+
+    // Attempt deletion
     const success = await usersModel.deleteUserById(userId);
+
     if (success) {
-      res.status(200).json({ message: 'User deleted successfully' });
-    } else {
-      res.status(404).json({ message: 'User not found' });
+      console.log(`User ${userId} deleted successfully`);
+      return res.status(200).json({ message: 'User deleted successfully' });
     }
+
+    console.warn(`User ${userId} not found for deletion`);
+    return res.status(404).json({ message: 'User not found' });
   } catch (error) {
     console.error('Error deleting user:', error.message);
-    res.status(500).json({ message: 'Failed to delete user' });
+    return res.status(500).json({ message: 'Failed to delete user' });
   }
 };
