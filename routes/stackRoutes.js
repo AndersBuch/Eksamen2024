@@ -17,7 +17,7 @@ router.post('/add-user', stackController.createUser);
 router.delete('/stacks/delete', isAdmin, stackController.deleteStack);
 router.get('/users', isAdmin, usersController.getAllUsersFromDatabase);
 router.post('/set-admin-status', isAdmin, usersController.setAdminStatus);
-
+// new routes
 router.get('/get-user/:userId', usersController.getUserById);
 router.post('/update-user', usersController.updateUserDetails);
 router.post('/delete-user', usersController.deleteUserById);

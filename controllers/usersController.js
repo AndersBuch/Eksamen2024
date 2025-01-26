@@ -44,10 +44,12 @@ exports.getUserById = async (req, res) => {
 };
 
 exports.updateUserDetails = async (req, res) => {
-  const { userId, userName, email, password } = req.body;
+  const { userId, userName, email, password, isAdmin } = req.body;
   try {
-    const success = await usersModel.updateUserDetails(userId, userName, email, password);
-    if (success) {
+    const userUpdateSuccess = await usersModel.updateUserDetails(userId, userName, email, password);
+    const adminUpdateSuccess = await usersModel.setAdminStatus(userId, isAdmin);
+
+    if (userUpdateSuccess || adminUpdateSuccess) {
       res.status(200).send({ message: 'User details updated successfully' });
     } else {
       res.status(404).send({ message: 'User not found or no changes made' });

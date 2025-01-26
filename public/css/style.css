@@ -2405,3 +2405,20 @@ input:checked + .slider:before {
   .manage-users-model label {
     font-weight: 600;
   }
+
+  .adminBox {
+    display: flex;
+    align-items: center;
+  }
+
+  .adminBox input{
+    width: 10%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .adminBox label{
+    width: 10%;
+    margin: 0;
+    padding: 0;
+  }
