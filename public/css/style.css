@@ -2400,7 +2400,14 @@ input:checked + .slider:before {
     background: #0E0E0E;
     width: 600px;
     padding: 20px;
+    border-radius: 10px;
   }
+
+  .manage-users-model::backdrop  {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
 
   .manage-users-model label {
     font-weight: 600;

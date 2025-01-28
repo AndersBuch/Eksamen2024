@@ -3,6 +3,7 @@ const router = express.Router();
 const stackController = require('../controllers/stackController');
 const groupController = require('../controllers/groupController');
 const usersController = require('../controllers/usersController');
+
 const isAdmin = require('../isAdmin');
 router.get('/stacks', stackController.getStacks);
 router.get('/groups', isAdmin, groupController.getAllGroups);
@@ -21,6 +22,7 @@ router.post('/set-admin-status', isAdmin, usersController.setAdminStatus);
 router.get('/get-user/:userId', usersController.getUserById);
 router.post('/update-user', usersController.updateUserDetails);
 router.post('/delete-user', usersController.deleteUserById);
+
 
 
 module.exports = router;

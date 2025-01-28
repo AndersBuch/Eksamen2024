@@ -46,7 +46,7 @@
     
   </div>
           </li>
-          <li><a href="#" data-open-modal="profile-settings">Profile</a></li>
+          <li><a href="#" data-open-profile-settings >Profile</a></li>
         </ul>
       </nav>
     </aside>
@@ -338,7 +338,7 @@
 
     <!-- Profile settings -->
 
-<dialog data-modal="profile-settings">
+ <!-- <dialog data-modal="profile-settings">
     <button class="close-btn" data-close-modal>&times;</button>
     <h1>Profile settings</h1>
     <form>
@@ -356,28 +356,121 @@
         <button id="logout">Log out</button>
         <button class="save">Save</button>
     </div>
+</dialog> -->
+
+<dialog data-profile-settings class="manage-users-model">
+  <h1>Profile settings</h1>
+  <form action="">
+    <div>
+      <label for="changeNameProfile">Name</label>
+      <input type="text" name="changeNameProfile" value="{{this.user_name}}">
+    </div>
+    <div>
+      <label for="changeEmailProfile">Email</label>
+      <input type="email" name="changeEmailProfile" value="{{this.email}}" disabled>
+    </div>
+
+    <div>
+        <button type="button">Change password</button>
+    </div>
+
+    <div class="passwordContainer">
+      <label for="changePasswordProfile">New password</label>
+      <input type="text" name="changePasswordProfile">
+      <label for="confirmChangePasswordProfile">Confirm password</label>
+      <input type="text" name="confirmChangePasswordProfile">
+    </div>
+
+
+    <div>
+        <button id="logout">Log out</button>
+        <button type="submit">Save</button>
+        <button formmethod="dialog" id="cancel-button-profile" type="submit">Cancel</button>
+    </div>
+
+  </form>
 </dialog>
 
 <script>
-    document.getElementById('logout').addEventListener('click', async () => {
-        try {
-            const response = await fetch('/logout', {
-                method: 'POST', // Ensure your server accepts POST for logout
-                headers: { 'Content-Type': 'application/json' },
-            });
+    document.addEventListener("DOMContentLoaded", () => {
+    const profileSettingsTrigger = document.querySelector("[data-open-profile-settings]");
+    const profileSettingsModal = document.querySelector("[data-profile-settings]");
+    const form = profileSettingsModal.querySelector("form");
 
-            if (response.ok) {
-                // Successfully logged out
-                window.location.href = '/login'; // Redirect to login page
-            } else {
-                const error = await response.json();
-                alert(`Error: ${error.message}`);
-            }
-        } catch (err) {
-            console.error('Error during logout:', err);
-            alert('An unexpected error occurred. Please try again.');
+    // Open modal and fetch user details
+    profileSettingsTrigger.addEventListener("click", async (event) => {
+        event.preventDefault();
+        try {
+        const response = await fetch("/profile");
+        if (!response.ok) throw new Error("Failed to fetch profile data");
+
+        const user = await response.json();
+        form.querySelector('input[name="changeNameProfile"]').value = user.user_name;
+        form.querySelector('input[name="changeEmailProfile"]').value = user.email;
+
+        profileSettingsModal.showModal();
+        } catch (error) {
+        console.error(error);
+        alert("Failed to load profile settings.");
         }
     });
+
+    // Handle form submission for updating profile
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const newName = form.querySelector('input[name="changeNameProfile"]').value.trim();
+        const newPassword = form.querySelector('input[name="changePasswordProfile"]').value.trim();
+        const confirmPassword = form.querySelector('input[name="confirmChangePasswordProfile"]').value.trim();
+
+        try {
+        const response = await fetch("/profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ newName, newPassword, confirmPassword }),
+        });
+
+        if (response.ok) {
+            alert("Profile updated successfully.");
+            profileSettingsModal.close();
+        } else {
+            const error = await response.text();
+            alert("Error: " + error);
+        }
+        } catch (error) {
+        console.error(error);
+        alert("Failed to update profile.");
+        }
+    });
+
+    // Close modal on cancel
+    document.getElementById("cancel-button-profile").addEventListener("click", (event) => {
+        event.preventDefault();
+        profileSettingsModal.close();
+    });
+    });
+</script>
+
+<script>
+document.getElementById("logout").addEventListener("click", async () => {
+  try {
+    const response = await fetch("/logout", {
+      method: "POST", // Ensure your server accepts POST for logout
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      // Successfully logged out
+      window.location.href = "/login"; // Redirect to login page
+    } else {
+      const error = await response.text();
+      alert("Error: " + error); // Show error message if logout fails
+    }
+  } catch (err) {
+    console.error("Error during logout:", err);
+    alert("An unexpected error occurred. Please try again.");
+  }
+});
 </script>
 
 

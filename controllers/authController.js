@@ -41,14 +41,17 @@ exports.postLogin = async (req, res) => {
 
 
 exports.logout = (req, res) => {
+    console.log("Session before destroy:", req.session); // Check the session before destroying it
+
     req.session.destroy((err) => {
         if (err) {
-            console.error('Failed to destroy session:', err);
-            return res.status(500).json({ message: 'Failed to log out.' });
+            console.error("Failed to destroy session:", err);
+            return res.status(500).json({ message: "Failed to log out." });
         }
 
-        res.clearCookie('connect.sid'); // Clear session cookie
-        res.status(200).json({ message: 'Logged out successfully.' });
+        console.log("Session after destroy:", req.session); // This will log undefined
+        res.clearCookie("connect.sid"); // Clear the cookie
+        return res.status(200).json({ message: "Logged out successfully." });
     });
 };
 
