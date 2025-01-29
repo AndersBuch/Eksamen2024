@@ -1,5 +1,5 @@
 const userProfileModel = require('../models/userProfile');
-const bcrypt = require('bcrypt'); // For password hashing
+
 
 // Get the logged-in user's profile
 exports.getUserProfile = async (req, res) => {
