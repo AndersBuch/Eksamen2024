@@ -22,7 +22,7 @@ body {
   --header-font-colors: #0E0E0E;
 
   --login-background-color: #1e2869;
-  --login-fields-background-color: #f9f9f9;
+  --login-fields-background-color: #c0c0c0;
   --login-button-color: #ce430b;
   --login-button-hover-color: #f15011;
   --login-font-color: #f9f9f9;
@@ -39,6 +39,10 @@ body {
   --modal-input-font-color: #f9f9f9;
   --save-button-color: #1b7002;
   --save-button-color-hover: #2db705;
+
+  --manage-user-btn: #464A4C;
+  
+
 
 
   /* fonts */
@@ -74,6 +78,7 @@ body {
   --modal-font-color: #f9f9f9;
   --modal-input-font-color: #0e0e0e;
   --save-button-color: #1b7002;
+  --manage-user-btn: #202328;
 }
 
 
@@ -2364,6 +2369,10 @@ input:checked + .slider:before {
     font-weight: 600;
     transition: background-color 0.3s;
     z-index: 1;
+    padding: 8px 20px;
+    background: var(--manage-user-btn);
+    color: var(--font-color);
+    border-radius: 8px;
   }
 
   .add-admin {
@@ -2397,19 +2406,71 @@ input:checked + .slider:before {
   /* Manage Users Modal styles*/
 
   .manage-users-model  {
-    background: #0E0E0E;
+    background: var(--modal-background-color);
     width: 600px;
     padding: 20px;
     border-radius: 10px;
   }
+
+  .manage-user-modal h1{
+    color: var(--modal-font-color);
+  }
+
+  .chpassword {
+    color: var(--modal-font-color);
+    font-size: 20px;
+  }
+
 
   .manage-users-model::backdrop  {
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(4px);
   }
 
+  .manageUserBtnContainer {
+    position: relative¨;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+  }
+
+  .manageUserBtnContainer button {
+    padding: 8px 20px;
+    background: #464A4C;
+    color: var(--font-color);
+    border-radius: 8px;
+  }
+
+  .manageUserBtnContainer button:nth-child(1) {
+    background-color: var(--delete-button-color);
+    position: absolute;
+    left: 20px;
+  }
+
+  .manageUserBtnContainer button:hover:nth-child(1) {
+    background-color: var(--delete-button-hover-color);
+  }
+
+
+
+  .manageUserBtnContainer button:nth-child(3) {
+    background-color: var(--save-button-color);
+    margin-left: 10px;
+  }
+
+  .manageUserBtnContainer button:hover:nth-child(3) {
+    background-color: var(--save-button-color-hover);
+  }
+  .manage-users-model h1 {
+    color: var(--modal-font-color);
+    font-weight: 600;
+  }
 
   .manage-users-model label {
+    color: var(--modal-font-color);
     font-weight: 600;
   }
 

@@ -113,6 +113,8 @@ document.addEventListener("DOMContentLoaded", () => {
       errors.push("Please enter a valid email address.");
     }
 
+ 
+
     if (!passwordRegex.test(password)) {
       errors.push(
         "Password must be at least 6 characters long, include at least one uppercase letter, one lowercase letter, and one number."
@@ -212,12 +214,11 @@ deleteUserButton.addEventListener("click", async () => {
       <input type="checkbox" id="isAdmin" name="isAdmin" {{#if this.admin}}checked{{/if}}>
     </div>
 
-    <div>
+    <div class="manageUserBtnContainer">
       <button data-delete-user type="button" class="delete-user-btn">Delete</button>
+      <button formmethod="dialog" id="cancel-button" type="submit">Cancel</button>
+      <button type="submit">Save</button>
     </div>
-
-    <button type="submit">Save</button>
-    <button formmethod="dialog" id="cancel-button" type="submit">Cancel</button>
   </form>
 </dialog>
 

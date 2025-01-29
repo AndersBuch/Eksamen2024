@@ -369,11 +369,9 @@
       <label for="changeEmailProfile">Email</label>
       <input type="email" name="changeEmailProfile" value="{{this.email}}" disabled>
     </div>
-
     <div>
-        <button type="button">Change password</button>
+      <p class="chpassword">Change password</p>
     </div>
-
     <div class="passwordContainer">
       <label for="changePasswordProfile">New password</label>
       <input type="text" name="changePasswordProfile">
@@ -382,10 +380,10 @@
     </div>
 
 
-    <div>
+    <div class="manageUserBtnContainer">
         <button id="logout">Log out</button>
-        <button type="submit">Save</button>
         <button formmethod="dialog" id="cancel-button-profile" type="submit">Cancel</button>
+        <button type="submit">Save</button>
     </div>
 
   </form>
